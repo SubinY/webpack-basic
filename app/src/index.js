@@ -1,5 +1,7 @@
 import fetch from "./fetch.js";
 import _ from 'lodash';
+import './index.scss';
+
 // 同步调接口
 const syncFn1 = () => {
     const heavyApi = fetch.fetchFn("heavyApi", {}, null);
@@ -23,7 +25,7 @@ const nestSyncFn1 = () => {
 
 // 嵌套同步调接口2 （asayn await）
 const nestSyncFn2 = async () => {
-    const api1Id;
+    let api1Id;
     await fetch.fetchFn("api1?id=1", {}, null).then(res1 => {
         api1Id = _.get(res1[0], "id", "0");
     });

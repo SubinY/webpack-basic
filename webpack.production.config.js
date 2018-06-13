@@ -4,51 +4,55 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-    entry: {
-        index: __dirname + "/app/src/index.js"
-    }, //已多次提及的唯一入口文件
+    entry: __dirname + "/app/src/index.js",//已多次提及的唯一入口文件
     output: {
-        path: __dirname + "/build",
-        filename: "[name].js",
-        sourcePrefix: ''
-        // publicPath: path.resolve(__dirname, "build/assets")
+        path: path.resolve(__dirname + "/build"),//打包后的文件存放的地方
+        filename: "[name].js"//打包后输出文件的文件名
     },
     devtool: 'null', //注意修改了这里，这能大大压缩我们的打包代码
     devServer: {
-        contentBase: "./public", //本地服务器所加载的页面所在的目录
-        historyApiFallback: true, //不跳转
-        inline: true,
-        hot: true
+        contentBase: "/", //本地服务器所加载的页面所在的目录
+        // historyApiFallback: true, //不跳转
+        // inline: true,
+        // hot: true
     },
     module: {
-        rules: [{
-            test: /(\.jsx|\.js)$/,
-            use: {
-                loader: "babel-loader"
+        rules: [
+            {
+                test: /(\.jsx|\.js)$/,
+                use: {
+                    loader: "babel-loader"
+                },
+                exclude: /node_modules/
             },
-            exclude: /node_modules/
-        }, {
-            test: /\.css$/,
-            use: [
-                {
-                    loader: "style-loader"
-                }, {
-                    loader: "css-loader",
-                    options: {
-                        modules: true, // 指定启用css modules
+            {
+                test: /\.css$/,
+                use: [
+                    {
+                        loader: "style-loader"
+                    }, {
+                        loader: "css-loader",
+                        options: {
+                            modules: true, // 指定启用css modules
+                        }
+                    }, {
+                        loader: "postcss-loader"
                     }
-                }, {
-                    loader: "postcss-loader"
-                }
-            ]
-        }, {
-            // 图片加载器，雷同file-loader，更适合图片，可以将较小的图片转成base64，减少http请求
-            // 如下配置，将小于8192byte的图片转成base64码
-            test: /\.(png|jpg|gif|ico)$/,
-            loader: 'url-loader?name=./static/img/[hash].[ext]',
-        }]
+                ]
+            },
+            {
+                test: /\.scss$/,
+                loader: "style-loader!css-loader!sass-loader"
+            },
+            {
+                // 图片加载器，雷同file-loader，更适合图片，可以将较小的图片转成base64，减少http请求
+                // 如下配置，将小于8192byte的图片转成base64码
+                test: /\.(png|jpg|gif|ico)$/,
+                loader: 'url-loader?name=./static/img/[hash].[ext]',
+            }]
     },
     plugins: [
         new webpack.LoaderOptionsPlugin({
@@ -66,10 +70,12 @@ module.exports = {
         // Split  into a seperate bundle
         new webpack.optimize.CommonsChunkPlugin({
             name: 'subinHu',
-            // minChunks: function (module) {
-            //     return module.context && module.context.indexOf('subinHu') !== -1;
-            // }
+            favicon: './favicon.ico',
+            minChunks: function (module) {
+                return module.context && module.context.indexOf('subinHu') !== -1;
+            }
         }),
+        new CopyWebpackPlugin([{from: path.join(__dirname, 'app/assets'), to: 'assets'}]), 
         new webpack.HotModuleReplacementPlugin(), //热加载插件
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.UglifyJsPlugin(),

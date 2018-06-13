@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     //   devtool: 'eval-source-map',//配置生成Source Maps，选择合适的选项
@@ -28,10 +29,15 @@ module.exports = {
                         options: {
                             modules: true, // 指定启用css modules
                         }
-                    }, {
+                    },
+                    {
                         loader: "postcss-loader"
                     }
                 ]
+            },
+            {
+                test: /\.scss$/,
+                loader: "style-loader!css-loader!sass-loader"
             }
         ]
     },
@@ -51,10 +57,12 @@ module.exports = {
         // Split  into a seperate bundle
         new webpack.optimize.CommonsChunkPlugin({
             name: 'subinHu',
+            favicon: './favicon.ico',
             minChunks: function (module) {
                 return module.context && module.context.indexOf('subinHu') !== -1;
             }
         }),
+        new CopyWebpackPlugin([{from: path.join(__dirname, 'app/assets'), to: 'assets'}]), // 手动移动静态资源
         new webpack.ProvidePlugin({
             "$": "jquery",
             "jQuery": "jquery",
