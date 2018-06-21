@@ -65,7 +65,7 @@ module.exports = {
         new webpack.BannerPlugin('版权所有，翻版必究'),
         new HtmlWebpackPlugin({
             title: "subin webpack",
-            template: __dirname + "/app/src/index.template.html"//new 一个这个插件的实例，并传入相关的参数
+            template: __dirname + "/app/src/index.html"//new 一个这个插件的实例，并传入相关的参数
         }),
         // Split  into a seperate bundle
         new webpack.optimize.CommonsChunkPlugin({

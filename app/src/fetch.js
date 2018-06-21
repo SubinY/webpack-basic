@@ -1,6 +1,6 @@
 const URL = "http://localhost:3000";
 
-let fetchFn = (url, opt, fn) => {
+let fetchFn = (url, opt, fn = null) => {
     const baseUrl = `${URL}/${url}`;
     const option = {
         method: "get",
@@ -11,6 +11,7 @@ let fetchFn = (url, opt, fn) => {
             'Cache-control': 'no-cache',
         }
     }
+    
     Object.assign(option, opt);
     return fetch(baseUrl, option).then(res => {
         if (fn) {

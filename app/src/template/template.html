@@ -1,0 +1,30 @@
+<div class="wrap">
+    <section class="left-section">
+        <h2>异步方法集合</h2>
+        <div class="btn-wrap">
+            <button title="同步调接口(Promise.all)">同步调接口(Promise.all)</button>
+            <button title="嵌套同步调接口1(promise嵌套)">嵌套同步调接口1(promise嵌套)</button>
+            <button title="嵌套同步调接口2 （es7语法asayn await）">嵌套同步调接口2 （es7语法asayn await）</button>
+            <h3>针对promise的then方法误区实例</h3>
+            <button title="mistake1">mistake1</button>
+            <button title="mistake2">mistake2</button>
+        </div>
+        <div class="result"></div>
+    </section>
+    <section class="right-section">
+        <pre class="code1">
+            const syncFn1 = () => {
+                const heavyApi = myfetch.fetchFn("heavyApi", {}, null);
+                const api1 = myfetch.fetchFn("api1", {}, null);
+                Promise.all([heavyApi, api1]).then(arr => {
+                    console.log(arr);
+                })
+            }
+            syncFn1();
+        </pre>
+    </section>
+</div>
+<footer>
+    <h3>运行结果</h3>
+    <div id="result"></div>
+</footer>
