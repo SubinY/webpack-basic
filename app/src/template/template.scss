@@ -24,12 +24,23 @@
     }
     .right-section {
         flex: 4;
+        pre {
+            display: none;
+        }
+        .code1 {
+            display: block;
+        }
     }
 }
 footer {
     border: 1px solid #999;
     width: 100%;
-    height: 200px;
+    min-height: 200px;
     padding: 10px;
     box-sizing: border-box;
+}
+.result-son {
+    max-width: 300px;
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
 }

@@ -9,7 +9,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
     entry: __dirname + "/app/src/index.js",//已多次提及的唯一入口文件
     output: {
-        path: path.resolve(__dirname + "/build"),//打包后的文件存放的地方
+        path: path.resolve(__dirname + "/dist"),//打包后的文件存放的地方
         filename: "[name].js"//打包后输出文件的文件名
     },
     devtool: 'null', //注意修改了这里，这能大大压缩我们的打包代码
@@ -75,12 +75,12 @@ module.exports = {
                 return module.context && module.context.indexOf('subinHu') !== -1;
             }
         }),
-        new CopyWebpackPlugin([{from: path.join(__dirname, 'app/assets'), to: 'assets'}]), 
+        new CopyWebpackPlugin([{from: path.join(__dirname, 'app/assets'), to: 'assets'}]), // 打包静态资源
         new webpack.HotModuleReplacementPlugin(), //热加载插件
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.UglifyJsPlugin(),
         new ExtractTextPlugin("style.css"),
-        new CleanWebpackPlugin('build/*.*', {
+        new CleanWebpackPlugin('dist/*.*', {
             root: __dirname,
             verbose: true,
             dry: false
