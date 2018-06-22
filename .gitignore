@@ -6,3 +6,4 @@ vuepress
 TODOs.md
 .idea
 build
+package-lock.json

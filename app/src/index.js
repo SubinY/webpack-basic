@@ -2,7 +2,6 @@
 import "./index.scss";
 import "./template/template.js"
 
-
 // 异步方法集合
 // const sbFnGather = (() => {
 //     // 同步调接口 (Promise.all)
